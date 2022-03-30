@@ -66,7 +66,7 @@
         @apply px-2.5 py-1.5;
     }
 
-    .btn-group {
+    .btn-group {    
         @apply flex flex-row space-x-2;
     }
 
@@ -157,4 +157,8 @@
         @apply mx-1.5 my-1 text-base tracking-tight font-semibold text-black font-fira-sans leading-snug;
     }
 
+
+    .sidebar-anchor-top {
+        @apply flex flex-col w-full h-12 justify-self-start font-fira-sans;
+    }
 }

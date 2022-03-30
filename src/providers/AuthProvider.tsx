@@ -1,7 +1,7 @@
 import * as Realm from 'realm-web';
 import { stringify } from 'querystring';
 import React from 'react';
-import { useProvideAuth } from './useProvideAuth';
+import { useProvideAuth } from '../hooks/useProvideAuth';
 import { AuthContext } from '../contexts/AuthContext';
 
 

@@ -16,7 +16,7 @@ const intToSidebarState: Record<number, SidebarState> = {
     4: 'hiding'
 };
 
-function cycleSidebarState(curr: SidebarState) {
+export function cycleSidebarState(curr: SidebarState) {
     if (sidebarStateToInt[curr] === 4) {
         return intToSidebarState[0];
     }

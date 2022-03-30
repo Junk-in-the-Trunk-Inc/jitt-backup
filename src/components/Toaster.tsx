@@ -1,3 +1,4 @@
+import React from 'react';
 import { ToasterContext } from '../providers/ToasterProvider';
 
 export function Toaster() {

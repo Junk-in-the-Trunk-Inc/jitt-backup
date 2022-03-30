@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import { faExclamationCircle, faTrafficCone, faThumbsUp, faThumbsDown, faBug } from '@fortawesome/pro-duotone-svg-icons';
 import { useProvideOverlay } from '../hooks/useProvideOverlay';
-import { useProvideSidebar } from '../hooks/useProvideSidebar';
+import { useProvideSidebar } from "../hooks/useProvideSidebar";
 
 // TODO Delete this
 

@@ -4,11 +4,11 @@ import { Toaster } from './Toaster';
 import { ToasterContext } from '../providers/ToasterProvider';
 import { useLocation, useNavigate } from 'react-router';
 import { faHome, faLeftLong, faFileCirclePlus, faUserAlt, faUserSecret, faUserShield } from '@fortawesome/free-solid-svg-icons';
-import { OverlayContext } from '../providers/OverlayProvider';
 import React from 'react';
 import { IconButton } from './IconButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthContext } from '../contexts/AuthContext';
+import { OverlayContext } from '../contexts/OverlayContext';
 
 export function useAuth() {
     const ctxt = React.useContext(AuthContext);

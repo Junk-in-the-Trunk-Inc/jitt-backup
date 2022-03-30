@@ -1,5 +1,5 @@
 import * as Realm from 'realm-web';
-import appConfig from './../config/app-config.json';
+import appConfig from '../config/app-config.json';
 import { useCallback } from 'react';
 import React from 'react';
 import { generateRandomString } from '../common/string/generateRandomString';
@@ -12,10 +12,11 @@ export function useProvideAuth(): IAuthContext {
     const currentUser = React.useCallback(() => app.current.currentUser, []);
     const isAuthenticated = React.useCallback(() => currentUser() != null, [currentUser]);
     const logIn = React.useCallback(
-        ({ email, password }: { email: string; password: string }) => app.current.logIn(Realm.Credentials.emailPassword(email, password)).then((x) => {
-            forceUpdate(generateRandomString(24));
-            return x;
-        }),
+        ({ email, password }: { email: string; password: string }) =>
+            app.current.logIn(Realm.Credentials.emailPassword(email, password)).then((x) => {
+                forceUpdate(generateRandomString(24));
+                return x;
+            }),
         [app]
     );
     const logOut = React.useCallback(() => {
@@ -23,12 +24,9 @@ export function useProvideAuth(): IAuthContext {
         if (cu == null) return Promise.resolve();
         return cu.logOut().then((x) => forceUpdate(generateRandomString(24)));
     }, [currentUser]);
-    const register = useCallback(
-        ({ email, password }: { email: string; password: string }) => {
-            return app.current.emailPasswordAuth.registerUser(email, password);
-        },
-        []
-    );
+    const register = useCallback(({ email, password }: { email: string; password: string }) => {
+        return app.current.emailPasswordAuth.registerUser(email, password);
+    }, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const user = React.useMemo(() => currentUser(), [currentUser, flag]);
     console.log('user', user);
