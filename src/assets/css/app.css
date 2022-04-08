@@ -32,3 +32,9 @@
 .navigation-details {
     list-style: ;
 }
+
+.theme-primary {
+    --fa-primary-color: linen;
+    --fa-secondary-color: dodgerblue;
+    --fa-secondary-opacity: 1.0;
+}

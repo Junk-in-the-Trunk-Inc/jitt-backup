@@ -51,7 +51,7 @@
         @apply btn zinc-bg;
     }
     .btn-zinc-icon {
-        @apply btn zinc-bg ;
+        @apply btn zinc-bg;
     }
     .btn-teal {
         @apply teal-bg btn;
@@ -62,12 +62,15 @@
     .btn-indigo {
         @apply btn indigo-bg;
     }
+    .no-mp {
+        @apply p-0 m-0;
+    }
     .btn-icon {
         @apply px-2.5 py-1.5;
     }
 
     .btn-group {    
-        @apply flex flex-row space-x-2;
+        @apply flex flex-row;
     }
 
     .auth-btn {

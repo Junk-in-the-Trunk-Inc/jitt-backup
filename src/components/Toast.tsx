@@ -5,6 +5,7 @@ import { cn } from '../util/cn';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useToggler } from '../hooks/useToggler';
 import { generateRandomString } from '../common/string/generateRandomString';
+import React from 'react';
 
 export type ToastType = 'success' | 'failure' | 'error' | 'info' | 'warning';
 
@@ -29,25 +30,25 @@ const forToastIcon = cataToastType('bg-green-dark/80 text-white', 'bg-red-dark/8
 const forToastBorder = cataToastType('border-emerald-very-dark/80', 'border-red-very-dark/80', 'border-green-very-dark/80', 'border-blue-very-dark/80', 'border-amber-very-dark/80');
 const forDivide = cataToastType('divide-emerald-very-dark/80', 'divide-red-very-dark/80', 'divide-green-very-dark/80', 'divide-blue-very-dark/80', 'divide-amber-very-dark/80');
 const forTitle = cataToastType(
-    'bg-emerald/80 text-white font-fira-sans font-semibold text-xl tracking-wide leading-loose flex w-full text-center items-center justify-center',
-    'bg-red/80 text-white font-fira-sans font-semibold text-xl tracking-wide leading-loose flex w-full text-center items-center justify-center',
-    'bg-green/80 text-white font-fira-sans font-semibold text-xl tracking-wide leading-loose flex w-full text-center items-center justify-center',
-    'bg-blue/80 text-white font-fira-sans font-semibold text-xl tracking-wide leading-loose flex w-full text-center items-center justify-center',
-    'bg-amber/80 text-white font-fira-sans font-semibold text-xl tracking-wide leading-loose flex w-full text-center items-center justify-center'
+    'bg-emerald/80 text-white font-fira-sans font-semibold text-2xl tracking-wide leading-loose flex w-full text-center items-center justify-center overline text-decoration-white underline',
+    'bg-red/80 text-white font-fira-sans font-semibold text-2xl tracking-wide leading-loose flex w-full text-center items-center justify-center overline text-decoration-white underline',
+    'bg-green/80 text-white font-fira-sans font-semibold text-2xl tracking-wide leading-loose flex w-full text-center items-center justify-center overline text-decoration-white underline',
+    'bg-blue/80 text-white font-fira-sans font-semibold text-2xl tracking-wide leading-loose flex w-full text-center items-center justify-center overline text-decoration-white underline',
+    'bg-amber/80 text-white font-fira-sans font-semibold text-2xl tracking-wide leading-loose flex w-full text-center items-center justify-center overline text-decoration-white underline'
 );
 const forSubtitle = cataToastType(
-    'bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre',
-    'bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre',
-    'bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre',
-    'bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre',
-    'bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre'
+    'text-white bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre justify-center',
+    'text-white bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre justify-center',
+    'text-white bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre justify-center',
+    'text-white bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre justify-center',
+    'text-white bg-black font-semibold font-fira-sans text-base leading-snug tracking-wide flex text-center w-full flex before:content-["__"] whitespace-pre justify-center'
 );
 const forBody = cataToastType(
-    'p-0.5 bg-emerald-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-normal whitespace-normal',
-    'p-0.5 bg-red-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-normal whitespace-normal',
-    'p-0.5 bg-green-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-normal whitespace-normal',
-    'p-0.5 bg-blue-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-normal whitespace-normal',
-    'p-0.5 bg-amber-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-normal whitespace-normal'
+    'bg-emerald-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-medium whitespace-normal border-2 border-black',
+    'bg-red-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-medium whitespace-normal border-2 border-black',
+    'bg-green-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-medium whitespace-normal border-2 border-black',
+    'bg-blue-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-medium whitespace-normal border-2 border-black',
+    'bg-amber-very-light/80 text-black font-fira-sans before:content-["__"] text-left tracking-tight leading-snug text-base font-medium whitespace-normal border-2 border-black'
 );
 
 export function Toast({
@@ -172,12 +173,14 @@ export function Toast({
             <div className={`flex items-center justify-center w-full h-full place-content-center ${forToastIcon(type)} ${forToastBorder(type)}`}>
                 <FontAwesomeIcon className='flex flex-grow object-cover stroke-1 place-self-center fill-black stroke-black' size='3x' icon={icon} />
             </div>
-            <section aria-describedby={bodyID} className={`w-full h-auto flex flex-col border-4 rounded-md col-span-4 ${forToastBorder(type)}`}>
+            <section aria-describedby={bodyID} className={`w-full h-auto flex flex-col border-4 rounded-md col-span-4 border-black`}>
                 <div className={'flex flex-col justify-self-start w-full h-auto'}>
-                    <h1 className={forTitle(type)}>{title}</h1>
+                    <span className={forTitle(type)}>{title}</span>
                     <p className={forSubtitle(type)}>{subtitle}</p>
                 </div>
-                <p id={bodyID} className={`flex flex-grow justify-start ${forBody(type)} m-0.5`} >{body}</p>
+                <p id={bodyID} className={`flex flex-grow justify-start ${forBody(type)}`} >
+                    <span className='w-full h-full px-2 py-1 indent-4'>{body}</span>
+                </p>
             </section>
         </div>
     );

@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { cloneElement, useMemo } from 'react';
+import { generateRandomString } from '../common/string/generateRandomString';
+import { LeftSidebar } from '../components/LeftSidebar';
 import { ISidebarContext } from '../contexts/SidebarContext';
-import { SidebarState, cycleSidebarState } from '../providers/OverlayState';
+import { cycleSidebarState } from '../providers/OverlayState';
+import { SidebarState } from '../types/SidebarState';
 import { useProvideContentComponent } from './useProvideContentComponent';
 
 export function useProvideSidebar(): ISidebarContext {
@@ -11,7 +14,7 @@ export function useProvideSidebar(): ISidebarContext {
     const togglePin = React.useCallback(() => setState((prev) => (prev === 'pinned' ? 'not_pinned' : 'pinned')), []);
     const [content, setContent] = React.useState<JSX.Element[]>([]);
     const appendContent = React.useCallback((item: JSX.Element) => {
-        setContent((prev) => [...prev, item]);
+        setContent((prev) => [...prev, cloneElement(item, { ...item.props, key: generateRandomString(10) })]);
     }, []);
     const popContent = React.useCallback(
         () =>
@@ -22,6 +25,7 @@ export function useProvideSidebar(): ISidebarContext {
             }),
         []
     );
+    const El = useMemo(() => <LeftSidebar />, []);
     return React.useMemo(
         () => ({
             state,
@@ -29,7 +33,8 @@ export function useProvideSidebar(): ISidebarContext {
             togglePin,
             content,
             appendContent,
-            popContent
+            popContent,
+            El
         }),
         [appendContent, content, cycle, popContent, state, togglePin]
     );

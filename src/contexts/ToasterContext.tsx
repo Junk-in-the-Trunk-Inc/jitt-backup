@@ -1,6 +1,7 @@
+import React from 'react';
+
 export type IToasterContext = {
-    toasts: () => JSX.Element[];
-    appendToast(item: JSX.Element): void;
+    toasts: JSX.Element[];
     addInfoToast(body: string, subtitle?: string, title?: string): void;
     addWarningToast(body: string, subtitle?: string, title?: string): void;
     addErrorToast(body: string, subtitle?: string, title?: string): void;
@@ -9,4 +10,3 @@ export type IToasterContext = {
 };
 
 export const ToasterContext = React.createContext<IToasterContext | undefined>(undefined);
-

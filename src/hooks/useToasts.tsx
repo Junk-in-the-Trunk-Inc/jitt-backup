@@ -1,6 +1,8 @@
-import { useContext } from 'react';
-import { UIContext } from '../contexts/UIContext';
+import { useContext, useMemo } from 'react';
+import { ToasterContext } from '../contexts/ToasterContext';
+import { useToaster } from './useToaster';
 
 export function useToasts() {
-    return useContext(UIContext)!.toasts();
+    const ctx = useToaster();
+    return useMemo(() => ctx.toasts, [ctx.toasts]);
 }

@@ -1,40 +1,33 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { useProvideToasterComponent } from '../hooks/useProvideToaster';
+import { useProvideToaster } from '../hooks/useProvideToaster';
 import { faExclamationCircle, faThumbsDown, faThumbsUp, faBug, faTrafficCone } from '@fortawesome/pro-solid-svg-icons';
+import { ToasterContext } from '../contexts/ToasterContext';
+import React from 'react';
+import { ToastType } from '../components/Toast';
 
 export type ToastCtor = (body: string, title?: string, subtitle?: string) => void;
 
-export type IToasterContext = {
-    toasts: JSX.Element[];
-    createToast(body: string, title: string, icon: IconDefinition, subtitle?: string, bgColor?: string, textColor?: string): void;
-    createInfoToast: ToastCtor;
-    createSuccessToast: ToastCtor;
-    createFailureToast: ToastCtor;
-    createErrorToast: ToastCtor;
-    createWarningToast: ToastCtor;
-};
-
-export const ToasterContext = React.createContext<undefined | IToasterContext>(undefined);
 
 export function ToasterProvider({ children }: { children: Children }) {
-    const { createToast, toasts } = useProvideToasterComponent();
-    const createInfoToast = React.useCallback((body: string, title?: string, subtitle?: string) => createToast(body, title ?? 'INFORMATION', faExclamationCircle, subtitle, 'info'), [createToast]);
-    const createWarningToast = React.useCallback((body: string, title?: string, subtitle?: string) => createToast(body, title ?? 'WARNING', faTrafficCone, subtitle, 'warning'), [createToast]);
-    const createErrorToast = React.useCallback((body: string, title?: string, subtitle?: string) => createToast(body, title ?? 'ERROR', faBug, subtitle, 'error'), [createToast]);
-    const createSuccessToast = React.useCallback((body: string, title?: string, subtitle?: string) => createToast(body, title ?? 'SUCCESS', faThumbsUp, subtitle, 'success'), [createToast]);
-    const createFailureToast = React.useCallback((body: string, title?: string, subtitle?: string) => createToast(body, title ?? 'FAILURE', faThumbsDown, subtitle, 'failure'), [createToast]);
+    const { createToast, toasts } = useProvideToaster();
+    const toToastCreator = React.useCallback((defTitle: string, icon: IconDefinition, tt: ToastType) => (body: string, title?: string, subtitle?: string) => createToast(body, title ?? defTitle, icon, subtitle, tt), [createToast]);
+
+    const addInfoToast = toToastCreator('INFO', faExclamationCircle, 'info');
+    const addSuccessToast = toToastCreator('SUCCESS', faThumbsUp, 'success');
+    const addFailureToast = toToastCreator('FAILURE', faThumbsDown, 'failure');
+    const addErrorToast = toToastCreator('ERROR', faBug, 'error');
+    const addWarningToast = toToastCreator('WARNING', faTrafficCone, 'warning');
 
     const ctxt = React.useMemo(
         () => ({
             toasts,
-            createToast,
-            createInfoToast,
-            createWarningToast,
-            createErrorToast,
-            createSuccessToast,
-            createFailureToast
+            addInfoToast,
+            addWarningToast,
+            addSuccessToast,
+            addFailureToast,
+            addErrorToast
         }),
-        [createErrorToast, createFailureToast, createInfoToast, createSuccessToast, createToast, createWarningToast, toasts]
+        [addErrorToast, addFailureToast, addInfoToast, addSuccessToast, addWarningToast, toasts]
     );
 
     return <ToasterContext.Provider value={ctxt}>{children}</ToasterContext.Provider>;

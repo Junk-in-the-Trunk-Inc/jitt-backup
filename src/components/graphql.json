@@ -1,0 +1,19 @@
+{
+    "title": "rental-unit",
+    "bsonType": "object",
+    "required": ["facility", "unitNumber"],
+    "properties": {
+        "_id": {
+            "bsonType": "objectId"
+        },
+        "facility": {
+            "bsonType": "objectId"
+        },
+        "unitNumber": {
+            "bsonType": "string"
+        },
+        "unitSize": {
+            "bsonType": "string"
+        }
+    }
+}

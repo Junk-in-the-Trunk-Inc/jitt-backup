@@ -1,40 +1,43 @@
-import React from 'react';
-import { cycleSidebarState, SidebarState } from '../providers/OverlayState';
+import React, { useMemo } from 'react';
+import { cycleSidebarState } from '../providers/OverlayState';
+import { SidebarState } from '../types/SidebarState';
 import { BtnGroup } from './BtnGroup';
-import { faWindowClose, faThumbTack } from '@fortawesome/free-solid-svg-icons';
+import { faWindowClose, faThumbTack } from '@fortawesome/pro-duotone-svg-icons';
 import { cn } from '../util/cn';
 import { IconButton } from './IconButton';
+import { useLeftSidebar } from '../hooks/useLeftSidebar';
+import { useWhyDidYou } from './routing/useWhyDidYou';
+import { useCloneElement } from '../hooks/useCloneElement';
 
 export function LeftSidebar() {
-    const [state, setState] = React.useState<SidebarState>('hidden');
-    const pinSidebar = React.useCallback(() => setState('pinned'), []);
-    const unpinSidebar = React.useCallback(() => setState('not_pinned'), []);
-    const cycleState = React.useCallback(() => setState((x) => cycleSidebarState(x)), []);
-    const onAnimationEnd = React.useCallback(() => cycleState(), [cycleState]);
-    const togglePin = React.useCallback(() => (state === 'pinned' ? unpinSidebar() : pinSidebar()), [pinSidebar, state, unpinSidebar]);
-
-    const className = React.useMemo(
-        () =>
-            cn(
-                {
-                    slideInLeft: state === 'showing',
-                    slideOutLeft: state === 'hiding',
-                    hidden: state === 'hidden',
-                    flex: state !== 'hidden'
-                },
-                'transition duration-1000 delay-150 ease-in-out w-1/4 absolute left-0 h-full border-r-2 rounded-r-lg shadow-md shadow-white bg-zinc-dark/75 border-white/50 resize-x flex flex-col'
-            ),
-        [state]
+    useWhyDidYou('LeftSidebar', {});   
+    const { state, cycle, togglePin, content } = useLeftSidebar();
+    useWhyDidYou('LeftSidebar-content', content);
+    const className = cn(
+        {
+            slideInLeft: state === 'showing' || state === 'hidden',
+            slideOutLeft: state === 'hiding',
+            'translate-x-0': state === 'pinned' || state === 'not_pinned',
+            hidden: state === 'hidden',
+            flex: state !== 'hidden',
+            relative: state === 'pinned',
+            absolute: state === 'not_pinned' || state === 'hidden' || state === 'hiding' || state === 'showing'
+        },
+        'transition duration-1000 delay-150 ease-in-out absolute top-0 bottom-0 h-full border-r-2 rounded-r-lg shadow-md shadow-white bg-zinc-dark/75 border-white/50 resize-x flex flex-col'
     );
-
+    const clonedContent = useCloneElement(content, {});
+    const p = useMemo(() => ({children: clonedContent}), [clonedContent]);
+    useWhyDidYou('clonedContent', p);
     return (
-        <aside className={className} id='left-sidebar'>
-            <div className='flex flex-row items-center justify-between w-full h-12'>
-                <BtnGroup className='space-x-1 justify-self-end'>
-                    <IconButton icon={faThumbTack} className='object-fill w-12 h-12 text-white border border-cyan btn-blue' onClick={togglePin} aria-pressed={state === 'pinned'} />
-                    <IconButton icon={faWindowClose} className='object-fill w-12 h-12 text-white border border-cyan btn-blue' onClick={cycleState} />
+        <div className={className} id='left-sidebar' onAnimationEnd={cycle}>
+            <div className='flex flex-row items-center justify-between w-full bg-black border border-white '>
+                <span className='flex items-center w-auto h-full text-base font-semibold text-white justify-self-start font-fira-sans'>Navigation</span>
+                <BtnGroup className='flex flex-row ml-4 justify-self-end'>
+                    <IconButton icon={faThumbTack} className='object-fill theme-primary' size='sm' onClick={togglePin} aria-pressed={state === 'pinned'} bordered fw  />
+                    <IconButton icon={faWindowClose} className='object-fill theme-primary' size='sm' onClick={cycle} bordered inverse fw />
                 </BtnGroup>
             </div>
-        </aside>
+            {clonedContent}
+        </div>
     );
 }

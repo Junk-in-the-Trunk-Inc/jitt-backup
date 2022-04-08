@@ -1,9 +1,9 @@
-export type OverlayState = 'hidden' | 'hiding' | 'shown' | 'showing';
-export type SidebarState = Exclude<OverlayState, 'shown'> | 'not_pinned' | 'pinned';
+import { SidebarState } from '../types/SidebarState';
 
+export type OverlayState = 'hidden' | 'hiding' | 'shown' | 'showing';
 const sidebarStateToInt: Record<SidebarState, number> = {
     hidden: 0,
-    showing: 1, 
+    showing: 1,
     not_pinned: 2,
     pinned: 3,
     hiding: 4
@@ -17,8 +17,15 @@ const intToSidebarState: Record<number, SidebarState> = {
 };
 
 export function cycleSidebarState(curr: SidebarState) {
-    if (sidebarStateToInt[curr] === 4) {
-        return intToSidebarState[0];
+    switch (curr) {
+        case 'hidden':
+            return 'showing';
+        case 'hiding':
+            return 'hidden';
+        case 'not_pinned':
+        case 'pinned':
+            return 'hiding';
+        case 'showing':
+            return 'pinned';
     }
-    return intToSidebarState[sidebarStateToInt[curr] + 1];
 }
